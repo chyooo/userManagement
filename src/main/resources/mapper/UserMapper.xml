@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.usermanagement.mapper.UserMapper">
+    <resultMap id="UserDTOMap" type="com.usermanagement.dto.UserDTO">
+    	<result property="userIdx" column="user_idx"/>
+        <result property="userId" column="user_id"/>
+        <result property="userPw" column="user_pw"/>
+        <result property="userNm" column="user_nm"/>
+        <result property="userAuth" column="user_auth"/>
+    </resultMap>
+
+    <select id="getUsers" resultMap="UserDTOMap">
+        SELECT user_id, user_pw, user_nm, user_auth
+        FROM SYSTEM_USER
+        WHERE user_id = #{userId}
+    </select>
+
+    <insert id="addUser" parameterType="com.usermanagement.dto.UserDTO">
+        INSERT INTO SYSTEM_USER (user_id, user_pw, user_nm, user_auth)
+        VALUES (#{userId}, #{userPw}, #{userNm}, #{userAuth})
+    </insert>
+
+    <update id="updateUser">
+        UPDATE SYSTEM_USER
+        SET user_nm = #{userNm}
+        WHERE user_id = #{userId}
+    </update>
+
+    <delete id="deleteUser">
+        DELETE FROM SYSTEM_USER WHERE user_id = #{userId}
+    </delete>
+    
+	<select id="findAllUsers" resultMap="UserDTOMap">
+	    SELECT user_id, user_pw, user_nm, user_auth
+	    FROM SYSTEM_USER
+	</select>
+	
+	<select id="getUserIdx" parameterType="String">
+	    SELECT user_idx FROM SYSTEM_USER WHERE user_id = #{userId}
+	</select>	
+</mapper>

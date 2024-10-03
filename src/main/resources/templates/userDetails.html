@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>회원 상세 정보</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+        }
+        .container {
+            margin-top: 50px;
+            position: relative; /* 추가 */
+        }
+        .user-info {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            text-align: right; /* 추가 */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="user-info">
+            <span th:text="${user.userNm} + '님'" class="mr-3"></span>
+            <form id="logoutForm" action="/logout" method="post" style="display:inline;">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <button class="btn btn-danger btn-sm" type="submit">로그아웃</button>
+            </form>
+        </div>
+        <h1 class="text-center">회원 상세 정보</h1>
+        <div class="mt-4">
+            <p>아이디: <span th:text="${user.userId}"></span></p>
+            <p>이름: <span th:text="${user.userNm}"></span></p>
+            <p>권한: <span th:text="${user.userAuth}"></span></p>
+        </div>
+
+        <!-- 수정 완료 메시지 표시 -->
+        <div th:if="${message}" class="alert alert-success" role="alert">
+            <span th:text="${message}"></span>
+        </div>
+
+        <form th:action="@{/userDetails/{userId}(userId=${user.userId})}" method="post" style="display:inline;">
+            <input type="hidden" name="_method" value="put"/>
+            <div class="form-group">
+                <label for="userNm">변경할 이름:</label>
+                <input type="text" id="userNm" name="userNm" th:value="${user.userNm}" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">수정</button>
+        </form>
+        <form th:action="@{/userDetails/{userId}/delete(userId=${user.userId})}" method="post" style="display:inline;">
+            <button type="submit" class="btn btn-danger">삭제</button>
+        </form>
+        <div>
+            <a class="btn btn-secondary mt-3" href="/userList">회원 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.usermanagement.mapper.UserHistoryMapper">
+
+    <insert id="insertUserHistory" parameterType="com.usermanagement.dto.UserHistoryDTO">
+        INSERT INTO USER_HISTORY (url, action_type, reg_user_idx, reg_ip, reg_dt)
+        VALUES (#{url}, #{actionType}, #{regUserIdx}, #{regIp}, CURRENT_TIMESTAMP)
+    </insert>
+    
+</mapper>
